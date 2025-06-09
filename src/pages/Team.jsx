@@ -10,7 +10,6 @@ export default function Team() {
   const [showModal, setShowModal] = useState(false);
   const { register, handleSubmit, reset, setValue } = useForm();
   const [image, setImage] = useState(null);
-  const token = localStorage.getItem("token");
   const [selectedTeam, setSelectedTeam] = useState(null);
   const fetchTeams = async () => {
     setLoading(true);
@@ -26,26 +25,15 @@ export default function Team() {
 
   const addTeamMember = async (data) => {
     const formData = new FormData()
-    // if (image) {
-    //   formData.append("file", image)
-    // }
-    formData.append("file", image)
-
+    if (image) {
+      formData.append("file", image)
+    }
     formData.append("full_name", data.full_name)
     formData.append("position_de", data.position_de)
     formData.append("position_ru", data.position_ru)
     formData.append("position_en", data.position_en)
 
     try {
-      //  const result =await axios({
-      //    url:'https://testaoron.limsa.uz/api/team-section',
-      //    method:"POST",
-      //    headers:{
-      //     Authorization:`Bearer ${token}`
-      //    },
-      //    data:formData
-      //  })
-
       const result = selectedTeam ? await API.patch(`/team-section/${selectedTeam.id}`, formData) : await API.post("/team-section", formData)
 
       if (result.data.success) {
