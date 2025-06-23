@@ -53,8 +53,12 @@ export default function Team() {
     fetchTeams();
   }, []);
   const openModal = () => {
-    setShowModal(true)
-    reset()
+    setSelectedTeam(null);  
+    reset();                 
+    setImage(null);         
+    setShowModal(true);
+    
+    
   }
   const showEdit = (team) => {
     setSelectedTeam(team)
@@ -68,17 +72,7 @@ export default function Team() {
     setShowModal(false)
     setSelectedTeam(null)
   }
-//  const deleteTeam=async(id)=>{
-//   try {
-//     const response=API.delete(`team-section/${id}`);
-//     alert("Deleted")
-//     fetchTeams
-    
-//   } catch (error) {
-//     console.log(error)
-//   }
-
-//  }
+ 
 
   const deleteTeam = async (id) => {
     try {
@@ -103,7 +97,8 @@ export default function Team() {
         </h2>
         <button
           className='border py-2 px-2 bg-green-400'
-          onClick={() => setShowModal(!showModal)}
+          
+          onClick={openModal}
         >
           Add Team Member
         </button>
@@ -226,9 +221,9 @@ export default function Team() {
                   onClick={handleSubmit(addTeamMember)}
                   disabled={loading}
                 >
-
-                  {loading ? "Adding" : "Add"}
+                  {selectedTeam ? (loading ? "Updating" : "Update") : (loading ? "Adding" : "Add")}
                 </button>
+
               </div>
 
             </form>
